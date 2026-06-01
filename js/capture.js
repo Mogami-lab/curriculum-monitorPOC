@@ -60,13 +60,12 @@ async function loadGrades() {
   const { data } = await supabase.from('grades').select('*').order('sort_order');
   populateSelect(document.getElementById('sel-grade'), data, 'Select grade');
   if (profile?.grade_id) document.getElementById('sel-grade').value = profile.grade_id;
-if (profile?.subject_id) document.getElementById('sel-subject').value = profile.subject_id;
 }
 
 async function loadSubjects() {
   const { data } = await supabase.from('subjects').select('*').order('name');
   populateSelect(document.getElementById('sel-subject'), data, 'Select subject');
-  if (profile.subject_id) document.getElementById('sel-subject').value = profile.subject_id;
+  if (profile?.subject_id) document.getElementById('sel-subject').value = profile.subject_id;
 }
 
 async function loadTerms() {
