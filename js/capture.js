@@ -59,7 +59,8 @@ document.addEventListener('DOMContentLoaded', async () => {
 async function loadGrades() {
   const { data } = await supabase.from('grades').select('*').order('sort_order');
   populateSelect(document.getElementById('sel-grade'), data, 'Select grade');
-  if (profile.grade_id) document.getElementById('sel-grade').value = profile.grade_id;
+  if (profile?.grade_id) document.getElementById('sel-grade').value = profile.grade_id;
+if (profile?.subject_id) document.getElementById('sel-subject').value = profile.subject_id;
 }
 
 async function loadSubjects() {
@@ -87,7 +88,7 @@ async function onContextChange() {
     const { data } = await supabase
       .from('weeks').select('*')
       .eq('term_id', termId).order('week_number');
-    populateSelect(document.getElementById('sel-week'), data.map(w => ({ id: w.id, name: w.label })), 'Select week');
+    populateSelect(document.getElementById('sel-week'), (data || []).map(w => ({ id: w.id, name: w.label })), 'Select week');
   }
 
   if (gradeId && subjectId && termId) {
