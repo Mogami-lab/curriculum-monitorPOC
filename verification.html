@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Verify Submissions — Curriculum Coverage Monitor</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<script src="config.js"></script>
+<body>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-brand-mark">📚</div>
+      CCM
+    </div>
+    <div class="nav-links">
+      <a href="capture.html">Capture</a>
+      <a href="dashboard.html">Dashboard</a>
+      <a href="verification.html" class="active">Verify</a>
+    </div>
+    <div class="nav-right" id="user-nav"></div>
+  </nav>
+
+  <div id="loading-overlay"><div class="loading-spinner">Loading…</div></div>
+
+  <div class="page-wrapper">
+
+    <!-- Pending list view -->
+    <div id="pending-view" class="hidden">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title">Pending Verifications</h1>
+          <p class="page-subtitle">Review and verify educator submissions for your school</p>
+        </div>
+      </div>
+
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Grade</th>
+              <th>Subject</th>
+              <th>Period</th>
+              <th>Coverage</th>
+              <th>Evidence</th>
+              <th>Status</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody id="pending-tbody">
+            <tr><td colspan="7" class="empty-state">Loading…</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Single submission verification view -->
+    <div id="verify-view" class="hidden">
+      <div class="page-header">
+        <div>
+          <h1 class="page-title" id="verify-title">Review Submission</h1>
+          <p class="page-subtitle">Examine the submitted coverage and evidence before deciding</p>
+        </div>
+        <a href="verification.html" class="btn btn-ghost">← Back to list</a>
+      </div>
+
+      <div class="card">
+        <div id="verify-content">Loading…</div>
+      </div>
+    </div>
+
+  </div>
+
+  <script type="module" src="js/verification.js"></script>
+</body>
+</html>

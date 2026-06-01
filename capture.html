@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Capture Coverage — Curriculum Coverage Monitor</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<script src="config.js"></script>
+<body>
+
+  <!-- Navigation -->
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-brand-mark">📚</div>
+      CCM
+    </div>
+    <div class="nav-links">
+      <a href="capture.html" class="active">Capture</a>
+      <a href="dashboard.html">Dashboard</a>
+    </div>
+    <div class="nav-right" id="user-nav"></div>
+  </nav>
+
+  <!-- Loading overlay -->
+  <div id="loading-overlay"><div class="loading-spinner">Processing…</div></div>
+
+  <div class="page-wrapper">
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Weekly Coverage Capture</h1>
+        <p class="page-subtitle">Submit curriculum coverage evidence for your class</p>
+      </div>
+    </div>
+
+    <form id="capture-form" novalidate>
+      <div class="capture-layout">
+
+        <!-- Main form column -->
+        <div>
+
+          <!-- STEP 1: Context -->
+          <div class="step-section">
+            <div class="step-header">
+              <div class="step-number">1</div>
+              <span class="step-title">Select Grade, Subject & Week</span>
+            </div>
+            <div class="step-body">
+              <div class="form-grid">
+                <div class="form-group">
+                  <label class="form-label" for="sel-grade">Grade</label>
+                  <div class="select-wrapper">
+                    <select class="select" id="sel-grade" required></select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="sel-subject">Subject</label>
+                  <div class="select-wrapper">
+                    <select class="select" id="sel-subject" required></select>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="sel-term">Term</label>
+                  <div class="select-wrapper">
+                    <select class="select" id="sel-term" required></select>
+                  </div>
+                </div>
+                <div class="form-group" id="week-section">
+                  <label class="form-label" for="sel-week">Week</label>
+                  <div class="select-wrapper">
+                    <select class="select" id="sel-week" required></select>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Existing submission notice -->
+              <div id="existing-notice" class="notice-box hidden"></div>
+            </div>
+          </div>
+
+          <!-- STEP 2: Topics -->
+          <div class="step-section" id="topics-section" style="display:none">
+            <div class="step-header">
+              <div class="step-number">2</div>
+              <span class="step-title">Topics & Sub-topics Covered</span>
+            </div>
+            <div class="step-body">
+
+              <!-- Coverage progress -->
+              <div class="coverage-progress-wrap">
+                <span style="font-size:.8rem;font-weight:600;color:var(--text-mid);white-space:nowrap">Coverage</span>
+                <div class="coverage-bar-track">
+                  <div class="coverage-bar-fill" id="coverage-bar" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                </div>
+                <span id="coverage-label" style="font-size:.8rem;color:var(--text-muted);white-space:nowrap">0 / 0 sub-topics (0%)</span>
+              </div>
+
+              <div id="topics-container"></div>
+            </div>
+          </div>
+
+          <!-- STEP 3: Cognitive levels -->
+          <div class="step-section">
+            <div class="step-header">
+              <div class="step-number">3</div>
+              <span class="step-title">Cognitive Levels Assessed</span>
+            </div>
+            <div class="step-body">
+              <div class="cog-grid">
+                <label class="cog-label">
+                  <input type="checkbox" name="cog-level" value="1">
+                  <div class="cog-level-badge">L1</div>
+                  <div>
+                    <div style="font-weight:600">Knowledge &amp; Recall</div>
+                    <div style="font-size:.78rem;color:var(--text-muted)">Remembering facts</div>
+                  </div>
+                </label>
+                <label class="cog-label">
+                  <input type="checkbox" name="cog-level" value="2">
+                  <div class="cog-level-badge">L2</div>
+                  <div>
+                    <div style="font-weight:600">Comprehension</div>
+                    <div style="font-size:.78rem;color:var(--text-muted)">Understanding concepts</div>
+                  </div>
+                </label>
+                <label class="cog-label">
+                  <input type="checkbox" name="cog-level" value="3">
+                  <div class="cog-level-badge">L3</div>
+                  <div>
+                    <div style="font-weight:600">Application</div>
+                    <div style="font-size:.78rem;color:var(--text-muted)">Using knowledge</div>
+                  </div>
+                </label>
+                <label class="cog-label">
+                  <input type="checkbox" name="cog-level" value="4">
+                  <div class="cog-level-badge">L4</div>
+                  <div>
+                    <div style="font-weight:600">Analysis &amp; Evaluation</div>
+                    <div style="font-size:.78rem;color:var(--text-muted)">Higher-order thinking</div>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- STEP 4: Evidence -->
+          <div class="step-section">
+            <div class="step-header">
+              <div class="step-number">4</div>
+              <span class="step-title">Upload Evidence <span style="font-weight:400;color:var(--text-muted)">(optional but recommended)</span></span>
+            </div>
+            <div class="step-body">
+              <div class="evidence-dropzone" id="evidence-dropzone">
+                <div class="drop-icon">📎</div>
+                <p><strong>Tap to add files</strong> or drag and drop here</p>
+                <p style="margin-top:.25rem;font-size:.8rem">Images or PDFs · Max 5 files · 10 MB each</p>
+              </div>
+              <input type="file" id="file-input" accept="image/*,application/pdf" multiple style="display:none">
+              <div id="file-list" class="file-list"></div>
+              <div id="evidence-count"></div>
+            </div>
+          </div>
+
+          <!-- STEP 5: Notes & submit -->
+          <div class="step-section">
+            <div class="step-header">
+              <div class="step-number">5</div>
+              <span class="step-title">Notes &amp; Submit</span>
+            </div>
+            <div class="step-body">
+              <div class="form-group">
+                <label class="form-label" for="notes">Additional notes <span style="font-weight:400;text-transform:none">(optional)</span></label>
+                <textarea class="input" id="notes" rows="3"
+                  placeholder="e.g. assessment scheduled for next week, class was disrupted by a strike day…"></textarea>
+              </div>
+              <div style="display:flex;justify-content:flex-end;gap:.75rem;align-items:center">
+                <button type="button" class="btn btn-ghost" onclick="history.back()">Cancel</button>
+                <button type="submit" class="btn btn-amber" id="submit-btn">
+                  Submit Coverage →
+                </button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar: school info -->
+        <div>
+          <div class="school-info-block">
+            <h3>Your School</h3>
+            <div class="school-info-row">
+              <span class="school-info-label">School</span>
+              <span id="school-name-display">—</span>
+            </div>
+            <div class="school-info-row">
+              <span class="school-info-label">Circuit</span>
+              <span id="circuit-display">—</span>
+            </div>
+            <div class="school-info-row">
+              <span class="school-info-label">District</span>
+              <span id="district-display">—</span>
+            </div>
+            <div class="school-info-row">
+              <span class="school-info-label">Province</span>
+              <span id="province-display">—</span>
+            </div>
+          </div>
+
+          <div class="card card-sm mt-2" style="margin-top:.75rem">
+            <h3 style="font-size:.9rem;margin-bottom:.75rem">Submission Checklist</h3>
+            <ul style="font-size:.82rem;display:flex;flex-direction:column;gap:.4rem;color:var(--text-mid)">
+              <li>✓ Select your grade and subject</li>
+              <li>✓ Select the correct week</li>
+              <li>✓ Tick all topics covered</li>
+              <li>✓ Tick sub-topics taught this week</li>
+              <li>✓ Mark cognitive levels assessed</li>
+              <li>✓ Upload at least one piece of evidence</li>
+            </ul>
+          </div>
+        </div>
+
+      </div><!-- /capture-layout -->
+    </form>
+  </div>
+
+  <script type="module" src="js/capture.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — Curriculum Coverage Monitor</title>
+  <link rel="stylesheet" href="css/styles.css">
+</head>
+<script src="config.js"></script>
+<body>
+
+  <nav class="nav">
+    <div class="nav-brand">
+      <div class="nav-brand-mark">📚</div>
+      CCM
+    </div>
+    <div class="nav-links">
+      <a href="capture.html">Capture</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="verification.html">Verify</a>
+    </div>
+    <div class="nav-right" id="user-nav"></div>
+  </nav>
+
+  <div id="loading-overlay"><div class="loading-spinner">Loading data…</div></div>
+
+  <div class="page-wrapper">
+
+    <!-- Header -->
+    <div class="page-header">
+      <div>
+        <h1 class="page-title">Coverage Dashboard</h1>
+        <p class="page-subtitle">Monitor curriculum pacing across schools, grades and subjects</p>
+      </div>
+      <div style="display:flex;gap:.75rem">
+        <button class="btn btn-ghost" onclick="loadDashboard?.()">↻ Refresh</button>
+      </div>
+    </div>
+
+    <!-- Summary cards -->
+    <div class="summary-grid">
+      <div class="summary-card">
+        <div class="summary-label">Total Submissions</div>
+        <div class="summary-value" id="card-total">—</div>
+      </div>
+      <div class="summary-card card-green">
+        <div class="summary-label">Verified</div>
+        <div class="summary-value" id="card-verified">—</div>
+      </div>
+      <div class="summary-card card-red">
+        <div class="summary-label">Flagged</div>
+        <div class="summary-value" id="card-flagged">—</div>
+      </div>
+      <div class="summary-card card-orange">
+        <div class="summary-label">Missing Evidence</div>
+        <div class="summary-value" id="card-no-evidence">—</div>
+      </div>
+      <div class="summary-card card-amber">
+        <div class="summary-label">Avg Coverage</div>
+        <div class="summary-value" id="card-avg-coverage">—</div>
+      </div>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-bar">
+      <h3>Filters</h3>
+      <div class="filters-grid">
+        <div class="select-wrapper">
+          <select class="select" id="f-district"></select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-circuit"></select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-school"></select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-grade"></select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-subject"></select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-term"></select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-week">
+            <option value="">— All weeks —</option>
+          </select>
+        </div>
+        <div class="select-wrapper">
+          <select class="select" id="f-status">
+            <option value="">— All statuses —</option>
+            <option value="submitted">Submitted</option>
+            <option value="verified">Verified</option>
+            <option value="flagged">Flagged</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Submissions table -->
+    <div class="table-wrapper">
+      <table>
+        <thead>
+          <tr>
+            <th>School</th>
+            <th>Grade</th>
+            <th>Subject</th>
+            <th>Week</th>
+            <th>Coverage</th>
+            <th>Evidence</th>
+            <th>Status</th>
+            <th>Updated</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody id="submissions-tbody">
+          <tr>
+            <td colspan="9" class="empty-state">Loading submissions…</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+  </div><!-- /page-wrapper -->
+
+  <!-- Detail slide-in panel -->
+  <div id="detail-panel" class="detail-panel hidden"></div>
+
+  <script type="module" src="js/dashboard.js"></script>
+</body>
+</html>
