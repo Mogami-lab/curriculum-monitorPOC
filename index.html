@@ -41,9 +41,14 @@
   </div>
 
   <script src="config.js"></script>
+<script src="config.js"></script>
 <script type="module">
-  import { supabase, getProfile } from './js/supabase-client.js';
-  import { signOut } from './js/auth.js';
+  import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
+
+  const supabase = createClient(
+    window.__ENV.SUPABASE_URL,
+    window.__ENV.SUPABASE_ANON_KEY
+  );
 
   const ROLE_HOME = {
     educator:            'capture.html',
@@ -51,7 +56,7 @@
     curriculum_official: 'dashboard.html'
   };
 
-  // Attach form handler immediately — don't await anything first
+  // Attach login handler immediately
   document.getElementById('login-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     const btn = document.getElementById('login-btn');
@@ -61,19 +66,22 @@
     btn.textContent = 'Signing in…';
 
     try {
-      const { data, error } = await supabase.auth.signInWithPassword({
+      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
         email:    document.getElementById('email').value.trim(),
         password: document.getElementById('password').value
       });
-      if (error) throw error;
+      if (authError) throw authError;
 
-      const { data: profile } = await supabase
+      const { data: profile, error: profileError } = await supabase
         .from('user_profiles')
         .select('role')
-        .eq('id', data.user.id)
+        .eq('id', authData.user.id)
         .single();
 
-      if (!profile) throw new Error('No user profile found. Contact your administrator.');
+      if (profileError || !profile) {
+        throw new Error('No user profile found. Contact your administrator.');
+      }
+
       window.location.href = ROLE_HOME[profile.role] || 'dashboard.html';
 
     } catch (ex) {
@@ -82,13 +90,6 @@
       btn.disabled = false;
       btn.textContent = 'Sign In';
     }
-  });
-
-  // Check if already logged in
-  supabase.auth.getSession().then(({ data: { session } }) => {
-    if (session) getProfile().then(p => {
-      if (p) window.location.href = ROLE_HOME[p.role] || 'dashboard.html';
-    });
   });
 </script>
 </body>
