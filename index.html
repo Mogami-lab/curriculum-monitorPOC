@@ -64,30 +64,23 @@
     btn.textContent = 'Signing in…';
 
     try {
-      const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
-        email:    document.getElementById('email').value.trim(),
-        password: document.getElementById('password').value
-      });
-      if (authError) throw authError;
+  const { data: authData, error: authError } = await supabase.auth.signInWithPassword({
+    email:    document.getElementById('email').value.trim(),
+    password: document.getElementById('password').value
+  });
+  if (authError) throw authError;
 
-      const { data: profile, error: profileError } = await supabase
-        .from('user_profiles')
-        .select('role')
-        .eq('id', authData.user.id)
-        .single();
+  const role = authData.user.user_metadata?.role;
+  if (!role) throw new Error('No role assigned. Contact your administrator.');
 
-      if (profileError || !profile) {
-        throw new Error('No user profile found. Contact your administrator.');
-      }
+  window.location.href = ROLE_HOME[role] || 'dashboard.html';
 
-      window.location.href = ROLE_HOME[profile.role] || 'dashboard.html';
-
-    } catch (ex) {
-      err.textContent = ex.message || 'Sign in failed. Please check your credentials.';
-      err.style.display = 'block';
-      btn.disabled = false;
-      btn.textContent = 'Sign In';
-    }
+} catch (ex) {
+  err.textContent = ex.message || 'Sign in failed. Please check your credentials.';
+  err.style.display = 'block';
+  btn.disabled = false;
+  btn.textContent = 'Sign In';
+}
   });
 </script>
 </body>
