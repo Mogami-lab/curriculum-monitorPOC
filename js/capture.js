@@ -14,18 +14,18 @@ let existingSubmissionId = null;
 
 // ── Bootstrap ──────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', async () => {
-  profile = await requireAuth();
-  if (!profile) return;
+  // Load dropdowns immediately — don't wait for profile
+  await Promise.all([loadGrades(), loadSubjects(), loadTerms()]);
+
+  // Then check auth separately
+  const { data: { session } } = await supabase.auth.getSession();
+  if (!session) { window.location.href = 'index.html'; return; }
+
+  profile = await getProfile().catch(() => null);
+
   renderUserNav(profile);
 
-  await Promise.all([
-    loadGrades(),
-    loadSubjects(),
-    loadTerms()
-  ]);
-
-  // Pre-fill school info from profile
-  if (profile.school) {
+  if (profile?.school) {
     document.getElementById('school-name-display').textContent = profile.school.name;
     document.getElementById('circuit-display').textContent = profile.school.circuit?.name || '—';
     document.getElementById('district-display').textContent = profile.school.circuit?.district?.name || '—';
