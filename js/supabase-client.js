@@ -1,13 +1,14 @@
 // js/supabase-client.js
 // Initialise Supabase client — single import across all pages
 
-import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/+esm';
+import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.45.4/+esm';
 
-const SUPABASE_URL = window.__ENV?.SUPABASE_URL
-  || 'https://YOUR_PROJECT_REF.supabase.co';
+const SUPABASE_URL = window.__ENV?.SUPABASE_URL || '';
+const SUPABASE_ANON_KEY = window.__ENV?.SUPABASE_ANON_KEY || '';
 
-const SUPABASE_ANON_KEY = window.__ENV?.SUPABASE_ANON_KEY
-  || 'YOUR_SUPABASE_ANON_KEY';
+if (!SUPABASE_URL || !SUPABASE_ANON_KEY) {
+  console.error('Missing Supabase config — check config.js');
+}
 
 export const supabase = createClient(SUPABASE_URL, SUPABASE_ANON_KEY, {
   auth: {
