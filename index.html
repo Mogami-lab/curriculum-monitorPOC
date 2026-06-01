@@ -40,38 +40,56 @@
     </p>
   </div>
 
-  <script type="module">
-    import { signIn, redirectIfLoggedIn } from './js/auth.js';
+  <script src="config.js"></script>
+<script type="module">
+  import { supabase, getProfile } from './js/supabase-client.js';
+  import { signOut } from './js/auth.js';
 
-    await redirectIfLoggedIn();
+  const ROLE_HOME = {
+    educator:            'capture.html',
+    departmental_head:   'verification.html',
+    curriculum_official: 'dashboard.html'
+  };
 
-    const ROLE_HOME = {
-      educator:            'capture.html',
-      departmental_head:   'verification.html',
-      curriculum_official: 'dashboard.html'
-    };
+  // Attach form handler immediately — don't await anything first
+  document.getElementById('login-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('login-btn');
+    const err = document.getElementById('login-error');
+    err.style.display = 'none';
+    btn.disabled = true;
+    btn.textContent = 'Signing in…';
 
-    document.getElementById('login-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const btn = document.getElementById('login-btn');
-      const err = document.getElementById('login-error');
-      err.style.display = 'none';
-      btn.disabled = true;
-      btn.textContent = 'Signing in…';
+    try {
+      const { data, error } = await supabase.auth.signInWithPassword({
+        email:    document.getElementById('email').value.trim(),
+        password: document.getElementById('password').value
+      });
+      if (error) throw error;
 
-      try {
-        const profile = await signIn(
-          document.getElementById('email').value.trim(),
-          document.getElementById('password').value
-        );
-        window.location.href = ROLE_HOME[profile.role] || 'dashboard.html';
-      } catch (ex) {
-        err.textContent = ex.message || 'Sign in failed. Please check your credentials.';
-        err.style.display = 'block';
-        btn.disabled = false;
-        btn.textContent = 'Sign In';
-      }
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('role')
+        .eq('id', data.user.id)
+        .single();
+
+      if (!profile) throw new Error('No user profile found. Contact your administrator.');
+      window.location.href = ROLE_HOME[profile.role] || 'dashboard.html';
+
+    } catch (ex) {
+      err.textContent = ex.message || 'Sign in failed. Please check your credentials.';
+      err.style.display = 'block';
+      btn.disabled = false;
+      btn.textContent = 'Sign In';
+    }
+  });
+
+  // Check if already logged in
+  supabase.auth.getSession().then(({ data: { session } }) => {
+    if (session) getProfile().then(p => {
+      if (p) window.location.href = ROLE_HOME[p.role] || 'dashboard.html';
     });
-  </script>
+  });
+</script>
 </body>
 </html>
