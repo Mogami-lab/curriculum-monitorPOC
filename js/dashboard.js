@@ -266,8 +266,23 @@ window.openVerify = (submissionId) => {
 };
 
 // ── Evidence preview ────────────────────────────────────────
-window.previewFile = async (storagePath, mimeType) => {
-  const { data } = await supabase.storage.from('evidence').createSignedUrl(storagePath, 60);
-  if (data?.signedUrl) window.open(data.signedUrl, '_blank');
-  else toast('Could not generate preview link.', 'error');
+window.previewFile = async (storagePath) => {
+  try {
+    const { data, error } = await supabase.storage
+      .from('evidence')
+      .createSignedUrl(storagePath, 300);
+
+    if (error) {
+      toast('Preview error: ' + error.message, 'error');
+      return;
+    }
+
+    if (data?.signedUrl) {
+      window.open(data.signedUrl, '_blank');
+    } else {
+      toast('No preview URL returned.', 'error');
+    }
+  } catch (err) {
+    toast('Preview failed: ' + err.message, 'error');
+  }
 };
