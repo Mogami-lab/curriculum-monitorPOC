@@ -897,7 +897,7 @@ tbody td {
   justify-content: center;
   font-size: 1.75rem;
   margin: 0 auto 1rem;
-  box-shadow: 0 4px 16px rgba(245,166,35,.4);
+  box-shadow: 0 4px 16px rgba(245,200,0,.4);
 }
 
 .login-title {
