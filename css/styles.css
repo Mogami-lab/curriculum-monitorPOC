@@ -8,13 +8,13 @@
 
 /* ── Custom Properties ────────────────────────────────────── */
 :root {
-  --navy:       #0f2240;
-  --navy-mid:   #1a3560;
-  --navy-light: #2a4a80;
-  --amber:      #f5a623;
-  --amber-dark: #d4891a;
-  --green:      #1a9e6e;
-  --green-bg:   #e8f7f2;
+  --navy:       #0d5c2a;
+  --navy-mid:   #1a7a3c;
+  --navy-light: #2a9a52;
+  --amber:      #f5c800;
+  --amber-dark: #d4a900;
+  --green:      #1a7a3c;
+  --green-bg:   #e8f5ee;
   --red:        #c0392b;
   --red-bg:     #fdf0ee;
   --orange:     #e67e22;
@@ -24,17 +24,17 @@
 
   --bg:         #f5f6f8;
   --surface:    #ffffff;
-  --surface-2:  #f0f2f5;
-  --border:     #dde1e8;
-  --text:       #1a2332;
-  --text-mid:   #4a5568;
-  --text-muted: #8a9ab0;
+  --surface-2:  #f0f4f2;
+  --border:     #d0ddd5;
+  --text:       #1a2e22;
+  --text-mid:   #3d5c47;
+  --text-muted: #7a9a82;
 
   --radius:     6px;
   --radius-lg:  12px;
-  --shadow-sm:  0 1px 3px rgba(15,34,64,.08);
-  --shadow:     0 4px 16px rgba(15,34,64,.10);
-  --shadow-lg:  0 8px 32px rgba(15,34,64,.14);
+  --shadow-sm:  0 1px 3px rgba(13,92,42,.08);
+  --shadow:     0 4px 16px rgba(13,92,42,.10);
+  --shadow-lg:  0 8px 32px rgba(13,92,42,.14);
 
   --nav-h:      60px;
   --sidebar-w:  260px;
