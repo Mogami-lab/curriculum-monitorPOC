@@ -57,7 +57,7 @@ async function loadPendingSubmissions() {
     tr.innerHTML = `
       <td>${sub.grade?.name}</td>
       <td>${sub.subject?.name}</td>
-      <td>${sub.term?.name} · ${sub.week?.label}</td>
+      <td>${sub.week?.label}</td>
       <td>${fmtPct(sub.coverage_pct)}</td>
       <td>${sub.has_evidence ? '<span class="evidence-yes">✓ Yes</span>' : '<span class="evidence-no">✗ No</span>'}</td>
       <td><span class="badge ${badge.cls}">${badge.label}</span></td>

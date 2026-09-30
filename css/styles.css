@@ -194,6 +194,14 @@ code {
 }
 .btn-ghost:hover { background: var(--surface-2); color: var(--text); }
 
+/* Button for the dark green nav bar (e.g. Sign out) */
+.btn-nav {
+  background: transparent;
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.6);
+}
+.btn-nav:hover { background: #fff; color: var(--navy); border-color: #fff; }
+
 .btn-sm { padding: .35rem .7rem; font-size: .8rem; }
 .btn-icon { padding: .35rem .5rem; }
 .btn:disabled { opacity: .5; cursor: not-allowed; }

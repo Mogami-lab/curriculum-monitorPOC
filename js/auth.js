@@ -57,7 +57,7 @@ export function renderUserNav(profile) {
     <span class="nav-user-name">${profile.full_name}</span>
     <span class="badge badge-role">${roleLabel}</span>
     ${profile.school ? `<span class="nav-school">${profile.school.name}</span>` : ''}
-    <button class="btn btn-ghost btn-sm" id="sign-out-btn">Sign out</button>
+    <button class="btn btn-nav btn-sm" id="sign-out-btn">Sign out</button>
   `;
   document.getElementById('sign-out-btn').addEventListener('click', signOut);
 }
